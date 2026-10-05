@@ -24,6 +24,8 @@ Python, LangChain, LangGraph, Pydantic, Groq (gpt-oss-120b), LangSmith, Google C
 Input: "Site is down for all our customers!!"
 Output: `category='bug' urgency='high' summary='Site is down for all customers'`
 
+![LangSmith traces](docs/langsmith-traces.png)
+
 ## Run it yourself
 1. Open the notebook in Google Colab
 2. Add `GROQ_API_KEY` and `LANGSMITH_API_KEY` to Colab Secrets
