@@ -14,15 +14,27 @@ An assistant that reads customer support emails and returns structured tickets
 Python, LangChain, LangGraph, Pydantic, Groq (gpt-oss-120b), LangSmith, Google Colab
 
 ## Project stages
-| Stage | Notebook | Status |
+| Stage | What it covers | Status |
 |---|---|---|
-| 1. Structured output chain | `notebooks/01_ticket_triage_chain.ipynb` | Done |
-| 2. Tool calling | `notebooks/02_tools.ipynb` | In progress |
-| 3. LangGraph workflow | `notebooks/03_langgraph_workflow.ipynb` | Planned |
+| 1. Structured output chain | Pydantic schema, prompt, structured output | Done |
+| 2. Tool calling | `@tool`, constrained inputs, multi-step tool calls | Done |
+| 3. LangGraph workflow | State, nodes, conditional routing | Done |
+
+All stages are in one notebook: [ticket_triage_langchain.ipynb](notebooks/ticket_triage_langchain.ipynb)
 
 ## Example
 Input: "Site is down for all our customers!!"
 Output: `category='bug' urgency='high' summary='Site is down for all customers'`
+
+## Workflow
+```mermaid
+graph TD;
+	__start__([start]) --> classify(classify);
+	classify -.->|urgency high| alert_team(alert_team);
+	classify -.->|low or medium| log_ticket(log_ticket);
+	alert_team --> log_ticket;
+	log_ticket --> __end__([end]);
+```
 
 ![LangSmith traces](docs/langsmith-traces.png)
 
@@ -34,3 +46,4 @@ Output: `category='bug' urgency='high' summary='Site is down for all customers'`
 ## What I learned
 Structured outputs, prompt design for classification, handling provider rate limits and
 model changes, and tracing LLM calls with LangSmith.
+Constrained tool inputs with Literal types, and moved routing from the prompt into a LangGraph conditional edge for reliable decisions.
